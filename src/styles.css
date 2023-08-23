@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+.btn {
+  /* position: absolute; */
+  top:50%;
+  background-color:#0a0a23;
+  color: #fff;
+  border:none;
+  border-radius:10px;
+  padding:15px;
+  min-height:30px;
+  min-width: 120px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+input[type="text"] {
+  -moz-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+  -o-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+  -webkit-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+  transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+}
+
+input[type="text"] {
+  appearance: none;
+  background-color: none;
+  border: 1px solid #ff4a56;
+  line-height: 0;
+  font-size: 17px;
+  display: block;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  border-radius: 60px;
+  color: #ff4a56;
+  font-weight: 100;
+  letter-spacing: 0.01em;
+  position: relative;
+  z-index: 1;
+}
+input[type="text"]:valid ~ label {
+  text-transform: uppercase;
+  font-style: italic;
+  -moz-transform: translate(5px, -35px) scale(0.6);
+  -ms-transform: translate(5px, -35px) scale(0.6);
+  -webkit-transform: translate(5px, -35px) scale(0.6);
+  transform: translate(5px, -35px) scale(0.6);
+}

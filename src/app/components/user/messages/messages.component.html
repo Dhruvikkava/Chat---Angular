@@ -1,0 +1,128 @@
+
+    <!-- Main container -->
+    <div class="container">
+
+      <div style="display: flex;margin-bottom: 20px;">
+        <button class="btn" (click)="isShowInput = !isShowInput">Join Room</button>
+        <input type="text" *ngIf="isShowInput" placeholder="Enter room id" [(ngModel)]="roomId" (keyup.enter)="joinRoom()">
+        <button class="btn" (click)="createRoom()">Create Room</button>
+      </div>
+
+      <div style="display: flex;">
+        <div style="max-width: 70%; flex:0 0 70%">
+          <!-- msg-header section starts -->
+          <div class="msg-header">
+            <div class="container1">
+              <img src="https://i.pravatar.cc/300" class="msgimg" style="width: 50px;"/>
+              <div class="active">
+                <p>{{(profData?.first_name |titlecase) + ' '+ (profData?.last_name | titlecase)}}</p>
+                <p style="margin-left: 20px;"*ngIf="this.roomName"> {{this.roomName}} </p>
+                <p style="margin-left: 20px;"*ngIf="roomId">( {{roomId}} )</p>
+              </div>
+            </div>
+          </div>
+          <!-- msg-header section ends -->
+
+          <!-- Chat inbox  -->
+          <div class="chat-page">
+            <div class="msg-inbox" style="position: relative;">
+              <div style="display: flex; width: 100%; min-height: 600px; justify-content: center; align-items: center; background: #6b6d6f3d;position: absolute;" *ngIf="isShowLoader">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div></div>
+              </div>
+              <div class="chats insights-results" id="focusBtn" #target (scroll)="onScroll()">
+                <!-- Message container -->
+                <div class="msg-page" *ngFor="let msg of messageList">
+
+                  <div *ngIf="msg?.createdRoomId;else sender"></div>
+
+                  <ng-template #sender>
+                    <div class="outgoing-chats" *ngIf="msg?.isSendUser; else reveiver">
+                      <div class="outgoing-chats-img">
+                        <img src="https://i.pravatar.cc/300" />
+                      </div>
+                      <div class="outgoing-msg">
+                        <div class="outgoing-chats-msg">
+                          <p class="multi-msg" *ngIf="msg?.message != null; else file">
+                            {{msg?.message}}
+                          </p>
+                          <ng-template #file>
+                            <div class="chat-message user-message">
+                              <img class="message-image" src="{{'http://192.168.1.139:3000/uploads/'+msg.file}}" alt="User's Image" style="width: 165.7px; height: 148.7px;">
+                            </div>
+                          </ng-template>
+                          <span class="time">18:30 PM | July 24</span>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template #reveiver>
+                    <div class="received-chats" style="position: relative;">
+                      <div class="received-chats-img" style="position: absolute;left: 0;">
+                        <img src="https://i.pravatar.cc/300" />
+                      </div>
+                      <div class="received-msg" style="padding-left: 20px;">
+                        <div class="received-msg-inbox">
+                          <p *ngIf="msg?.message != null; else file2">
+                            {{msg?.message}}
+                          </p>
+                          <ng-template #file2>
+                            <div class="chat-message user-message">
+                              <img class="message-image" src="{{'http://192.168.1.139:3000/uploads/'+msg.file}}" alt="User's Image" style="width: 165.7px; height: 148.7px;">
+                            </div>
+                          </ng-template>
+                          <span class="time">18:06 PM | July 24</span>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+
+              <!-- msg-bottom section -->
+
+              <div class="msg-bottom">
+                <div class="input-group">
+                  <div class="upload-btn-wrapper">
+                    <button class="btn">Send a file</button>
+                    <input type="file" name="myfile" #file (change)="changeFile($event)"/>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Write message..."
+                    (keyup.enter)="sendMessage()"
+                    [(ngModel)]="newMessage"
+                  />
+
+                  <span class="input-group-text send-icon">
+                    <button class="btn-submit" (click)="sendMessage()">Send Message</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="max-width: 30%; flex:0 0 30%">
+          <div class="ag-format-container" *ngIf="roomData.length != 0">
+            <h3 class="ag-courses_item">Rooms:</h3>
+            <div class="ag-courses_box">
+              <div class="ag-courses_item"*ngFor="let rooms of roomData" (click)="this.skip = 0;this.isLoading = true;this.oneRoomData = []; this.skipCount = 0;joinExistingRoom(rooms?.chatroom?.unique_room_id, rooms?.chatroom?.roomName);sendMarkReadMsg(rooms?.chatroom?.unique_room_id)">
+                <div class="ag-courses-item_link">
+                  <div class="ag-courses-item_bg"></div>
+                  <div class="count-bedge badge pulsate">{{rooms?.unreadChatMessages ? rooms?.unreadChatMessages : 0}}</div>
+
+                  <div class="ag-courses-item_title">
+                    <div>{{rooms?.chatroom?.roomName}}</div>
+                    <span style="font-size: 20px;">(id: {{rooms?.chatroom?.unique_room_id}})</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
